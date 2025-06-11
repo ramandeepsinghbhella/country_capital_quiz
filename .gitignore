@@ -1,18 +1,14 @@
-# Python
-*.pyc
-__pycache__/
-venv/
-.env
+# ==========================
+# Python / Django
+# ==========================
 
-# Django
-db.sqlite3
-*.log
+# Virtualenv & Environment
+backend/venv
 
-# React
-node_modules/
-build/
-.env
+# ==========================
+# React (frontend)
+# ==========================
+frontend/country_capital_quiz/node_modules/
+frontend/country_capital_quiz/build/
+frontend/country_capital_quiz/.env
 
-# OS / Editor files
-.DS_Store
-.vscode/

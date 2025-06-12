@@ -5,6 +5,9 @@
 # Virtualenv & Environment
 backend/venv
 
+#.env file
+backend/country_capital_quiz/.env
+
 # ==========================
 # React (frontend)
 # ==========================

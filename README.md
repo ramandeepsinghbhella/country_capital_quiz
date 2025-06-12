@@ -16,6 +16,8 @@ cd backend
 python3.12 -m venv env
 source env/bin/activate
 cd country_capital_quiz
+vim .env
+   SECRET_KEY='django-secret-key'
 pip install -r requirements.txt
 python3 manage.py runserver
 

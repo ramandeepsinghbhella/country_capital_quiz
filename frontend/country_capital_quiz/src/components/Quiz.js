@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-
+import {getCountry} from '../apis/get_country';
+import {postCheckAnswer} from '../apis/check';
 const Quiz = () => {
   const [country, setCountry] = useState('');
   const [id, setId] = useState(null);
@@ -11,45 +12,31 @@ const Quiz = () => {
   const fetchCountry = async () => {
     setResult(null);
     setAnswer('');
-    setError(false);  // Reset error
-    try {
-      const res = await fetch('/get_country');
-      const data = await res.json();
-      setCountry(data.country);
-      setId(data.id);
-    } catch (err) {
-      setError(true);  // NEW
-      console.error('Failed to fetch country', err);
+    setError(false); // Reset
+
+    const response = await getCountry();
+
+    if (response.success) {
+      setCountry(response.data.country);
+      setId(response.data.id);
+    } else {
+      setError(true);
     }
   };
-
   const checkAnswer = async () => {
-    setError(false);  // Reset error
-    try {
-      const res = await fetch('/check', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          id,
-          country,
-          capital: answer
-        })
-      });
+  setError(false);  // Reset error
 
-      if (res.status === 200) {
-        setResult('correct');
-      } else if (res.status === 400) {
-        const data = await res.json();
-        setResult('incorrect');
-        setCorrectCapital(data.correct_answer);
-      }
-    } catch (err) {
-      setError(true);  // NEW
-      console.error('Error checking answer', err);
-    }
-  };
+  const response = await postCheckAnswer({ id, country, capital: answer });
+
+  if (response.success === true) {
+    setResult('correct');
+  } else if (response.correctAnswer) {
+    setResult('incorrect');
+    setCorrectCapital(response.correctAnswer);
+  } else {
+    setError(true); // General failure
+  }
+};
 
   useEffect(() => {
     fetchCountry();
